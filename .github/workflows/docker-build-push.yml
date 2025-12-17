@@ -27,4 +27,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/PanCheck:v1
+            ${{ secrets.DOCKERHUB_USERNAME }}/pancheck:latest
