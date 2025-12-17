@@ -87,8 +87,13 @@ func ensureDatabase(config Config) error {
 // ensureMySQLDatabase 确保 MySQL 数据库存在
 func ensureMySQLDatabase(config Config) error {
 	// 连接到 MySQL 服务器（不指定数据库）
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/?charset=utf8mb4&parseTime=True&loc=Local",
-		config.User, config.Password, config.Host, config.Port)
+// 1. 如果 Charset 为空，给默认值
+	if config.Charset == "" {
+	    config.Charset = "utf8mb4"
+	}
+// 2. 将硬编码的 utf8mb4 改为使用 %s 读取配置
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/?charset=%s&parseTime=True&loc=Local",
+	    config.User, config.Password, config.Host, config.Port, config.Charset)
 
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
